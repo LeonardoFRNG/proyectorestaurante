@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>El Rincón de Pradomar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --verde: #123F35;
+      --arena: #E0A526;
+    }
+
+    body {
+      font-family: 'Outfit', system-ui, sans-serif;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center p-6" style="background:#123F35">
+
+  <div class="w-full max-w-sm">
+    <div class="text-center mb-8">
+      <p class="text-3xl font-light text-white leading-tight">El Rincón</p>
+      <p class="text-3xl font-bold text-white leading-tight">de Pradomar</p>
+      <div class="w-10 h-0.5 mx-auto mt-4" style="background:#E0A526"></div>
+    </div>
+
+    <div class="bg-white rounded-2xl p-6 shadow-xl">
+      <h1 class="text-lg font-medium text-slate-800 mb-1">Entrar al sistema</h1>
+      <p class="text-sm text-slate-500 mb-5">Usa el correo y la contraseña del restaurante.</p>
+
+      <label class="block text-sm text-slate-600 mb-1">Correo</label>
+      <input id="email" type="email" autocomplete="email"
+        class="w-full border border-slate-300 rounded-lg px-3 py-2.5 mb-4 focus:outline-none focus:ring-2 focus:ring-emerald-800">
+
+      <label class="block text-sm text-slate-600 mb-1">Contraseña</label>
+      <input id="password" type="password" autocomplete="current-password"
+        class="w-full border border-slate-300 rounded-lg px-3 py-2.5 mb-5 focus:outline-none focus:ring-2 focus:ring-emerald-800">
+
+      <button id="btnEntrar" class="w-full text-white font-medium rounded-lg py-3 hover:opacity-90 transition"
+        style="background:#123F35">
+        Entrar
+      </button>
+
+      <p id="error" class="hidden mt-4 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-3 py-2"></p>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script>
+    (async () => {
+      const { data } = await sb.auth.getSession();
+      if (data.session) location.href = 'app.html';
+    })();
+
+    const error = document.getElementById('error');
+    const btn = document.getElementById('btnEntrar');
+
+    async function entrar() {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      error.classList.add('hidden');
+
+      if (!email || !password) {
+        error.textContent = 'Escribe el correo y la contraseña.';
+        error.classList.remove('hidden');
+        return;
+      }
+
+      btn.disabled = true; btn.textContent = 'Entrando...';
+      const { error: err } = await sb.auth.signInWithPassword({ email, password });
+      btn.disabled = false; btn.textContent = 'Entrar';
+
+      if (err) {
+        error.textContent = 'El correo o la contraseña no coinciden.';
+        error.classList.remove('hidden');
+        return;
+      }
+      location.href = 'app.html';
+    }
+
+    btn.addEventListener('click', entrar);
+    document.addEventListener('keydown', e => { if (e.key === 'Enter') entrar(); });
+  </script>
+</body>
+
+</html>

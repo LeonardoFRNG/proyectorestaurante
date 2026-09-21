@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El Rincón de Pradomar</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body { font-family:'Outfit',system-ui,sans-serif; background:#F2F4F2; }
+  .nav-item.activo { background:rgba(255,255,255,.12); color:#fff; }
+  .nav-item.activo span.marca { opacity:1; }
+  @media print { .no-print { display:none !important; } main { padding:0 !important; } }
+</style>
+</head>
+<body class="text-slate-800">
+
+<div class="flex min-h-screen">
+
+  <!-- Barra lateral -->
+  <aside id="sidebar"
+    class="no-print fixed lg:static inset-y-0 left-0 w-64 z-30 -translate-x-full lg:translate-x-0 transition-transform flex flex-col"
+    style="background:#123F35">
+    <div class="px-5 py-6">
+      <p class="text-white text-lg font-light leading-tight">El Rincón</p>
+      <p class="text-white text-lg font-bold leading-tight">de Pradomar</p>
+      <p id="etiquetaPeriodo" class="text-xs mt-3" style="color:#E0A526">—</p>
+    </div>
+    <nav class="flex-1 px-3 space-y-1 text-sm">
+      <button class="nav-item w-full text-left px-3 py-2.5 rounded-lg text-white/70 hover:text-white flex items-center gap-2" data-sec="dashboard"><span class="marca opacity-0" style="color:#E0A526">▌</span>Dashboard</button>
+      <button class="nav-item w-full text-left px-3 py-2.5 rounded-lg text-white/70 hover:text-white flex items-center gap-2" data-sec="ventas"><span class="marca opacity-0" style="color:#E0A526">▌</span>Ventas</button>
+      <button class="nav-item w-full text-left px-3 py-2.5 rounded-lg text-white/70 hover:text-white flex items-center gap-2" data-sec="carta"><span class="marca opacity-0" style="color:#E0A526">▌</span>Carta</button>
+      <button class="nav-item w-full text-left px-3 py-2.5 rounded-lg text-white/70 hover:text-white flex items-center gap-2" data-sec="materia"><span class="marca opacity-0" style="color:#E0A526">▌</span>Materia prima</button>
+      <button class="nav-item w-full text-left px-3 py-2.5 rounded-lg text-white/70 hover:text-white flex items-center gap-2" data-sec="creditos"><span class="marca opacity-0" style="color:#E0A526">▌</span>Créditos</button>
+      <button class="nav-item w-full text-left px-3 py-2.5 rounded-lg text-white/70 hover:text-white flex items-center gap-2" data-sec="historial"><span class="marca opacity-0" style="color:#E0A526">▌</span>Historial</button>
+      <button class="nav-item w-full text-left px-3 py-2.5 rounded-lg text-white/70 hover:text-white flex items-center gap-2" data-sec="cierre"><span class="marca opacity-0" style="color:#E0A526">▌</span>Cierre de fin de semana</button>
+    </nav>
+    <div class="p-3">
+      <button id="btnSalir" class="w-full text-left px-3 py-2.5 rounded-lg text-white/60 hover:text-white text-sm">Cerrar sesión</button>
+    </div>
+  </aside>
+  <div id="capaFondo" class="no-print fixed inset-0 bg-black/40 z-20 hidden lg:hidden"></div>
+
+  <!-- Contenido -->
+  <div class="flex-1 min-w-0">
+    <header class="no-print bg-white border-b border-slate-200 px-4 sm:px-6 py-3 flex items-center gap-3 sticky top-0 z-10">
+      <button id="btnMenu" class="lg:hidden text-slate-600 text-2xl leading-none">&#9776;</button>
+      <h1 id="titulo" class="font-medium text-slate-800">Dashboard</h1>
+    </header>
+    <main id="vista" class="p-4 sm:p-6 max-w-6xl"></main>
+  </div>
+</div>
+
+<div id="toasts" class="fixed bottom-4 right-4 z-50 space-y-2"></div>
+<div id="modal" class="hidden"></div>
+
+<script src="js/config.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
